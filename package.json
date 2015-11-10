@@ -9,7 +9,9 @@
   "author": "Alexandr Antonov",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.6.0",
     "express": "^4.13.3",
+    "morgan": "^1.6.1",
     "nconf": "^0.8.2",
     "nodegit": "^0.5.0",
     "winston": "^2.1.0"

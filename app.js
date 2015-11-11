@@ -7,17 +7,17 @@ var morgan = require('morgan');
 // @see: https://github.com/expressjs/compression
 var compression = require('compression');
 var path = require('path');
-var config = require('./vendors/config');
-var log = require('./vendors/log')(module);
+var config = require('./libs/config');
+var log = require('./libs/log')(module);
 
 // app.use(express.favicon()); // отдаем стандартную фавиконку, можем здесь же свою задать
 app.use(morgan('combined'));
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'compiled/')));
 
-app.get('/api', function (req, res) {
-    res.send('API is running');
-});
+app.use(Object.keys(config.get('i18n')).map(function (lang) {
+    return '/' + lang;
+}), require(path.join(__dirname, 'app/routing/routing_localized')));
 
 app.use(function (req, res){
     res.status(404);

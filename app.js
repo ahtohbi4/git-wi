@@ -7,8 +7,8 @@ var morgan = require('morgan');
 // @see: https://github.com/expressjs/compression
 var compression = require('compression');
 var path = require('path');
-var config = require('./libs/config');
-var log = require('./libs/log')(module);
+var config = require(path.join(__dirname, 'libs/config'));
+var log = require(path.join(__dirname, 'libs/log'))(module);
 
 // app.use(express.favicon()); // отдаем стандартную фавиконку, можем здесь же свою задать
 app.use(morgan('combined'));

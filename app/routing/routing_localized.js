@@ -19,4 +19,7 @@ routes.get('/foo/', function(req, res) {
     res.end('<h1>Foo page</h1>' + res.locals.lang);
 });
 
+// Default controller
+routes.use('/default', require(path.join(__dirname, '../controllers/Default/routing/routing')));
+
 module.exports = routes;

@@ -1,25 +1,27 @@
 var express = require('express');
-var routes = express();
+var router = express.Router({
+    strict: true
+});
 
 var path = require('path');
 
-routes.all('*', function (req, res, next) {
+router.all('*', function (req, res, next) {
     res.locals.lang = req.baseUrl.replace('/', '');
 
     next();
 });
 
-routes.use(require(path.join(__dirname, 'routing_static')));
+router.use(require(path.join(__dirname, 'routing_static')));
 
-routes.get('/', function(req, res) {
+router.get('/', function(req, res) {
     res.end('<h1>Main page</h1>');
 });
 
-routes.get('/foo/', function(req, res) {
+router.get('/foo/', function(req, res) {
     res.end('<h1>Foo page</h1>' + res.locals.lang);
 });
 
 // Default controller
-routes.use('/default', require(path.join(__dirname, '../controllers/Default/routing/routing')));
+router.use('/default', require(path.join(__dirname, '../controllers/Default/routing/routing')));
 
-module.exports = routes;
+module.exports = router;

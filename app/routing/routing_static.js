@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/static/', function(req, res) {
-    res.end('<h1>Static page</h1>' + res.locals.lang);
+    res.end('<h1>Static page</h1><p>Locale of this page is: ' + res.locals.lang + '</p>');
 });
 
 module.exports = router;

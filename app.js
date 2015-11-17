@@ -1,7 +1,6 @@
 // @see: http://expressjs.com/4x/api.html
 var express = require('express'),
     app = express();
-var router = express.Router();
 // @see: https://github.com/expressjs/morgan
 var morgan = require('morgan');
 // @see: https://github.com/expressjs/compression

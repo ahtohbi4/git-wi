@@ -13,15 +13,10 @@ router.all('*', function (req, res, next) {
 
 router.use(require(path.join(__dirname, 'routing_static')));
 
-router.get('/', function(req, res) {
-    res.end('<h1>Main page</h1>');
-});
-
-router.get('/foo/', function(req, res) {
-    res.end('<h1>Foo page</h1>' + res.locals.lang);
-});
-
 // Default controller
 router.use('/default', require(path.join(__dirname, '../controllers/Default/routing/routing')));
+
+// Authorization controller
+router.use('/login', require(path.join(__dirname, '../controllers/Authorization/routing/routing')));
 
 module.exports = router;

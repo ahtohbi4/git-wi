@@ -16,6 +16,9 @@ router.use(require(path.join(__dirname, 'routing_static')));
 // Default module
 router.use('/default', require(path.join(__dirname, '../modules/Default/routing/routing')));
 
+// Registration module
+router.use('/registration', require(path.join(__dirname, '../modules/Registration/routing/routing')));
+
 // Authorization module
 router.use('/login', require(path.join(__dirname, '../modules/Authorization/routing/routing')));
 

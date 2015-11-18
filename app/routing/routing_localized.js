@@ -13,10 +13,10 @@ router.all('*', function (req, res, next) {
 
 router.use(require(path.join(__dirname, 'routing_static')));
 
-// Default controller
-router.use('/default', require(path.join(__dirname, '../controllers/Default/routing/routing')));
+// Default module
+router.use('/default', require(path.join(__dirname, '../modules/Default/routing/routing')));
 
-// Authorization controller
-router.use('/login', require(path.join(__dirname, '../controllers/Authorization/routing/routing')));
+// Authorization module
+router.use('/login', require(path.join(__dirname, '../modules/Authorization/routing/routing')));
 
 module.exports = router;

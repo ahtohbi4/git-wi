@@ -11,14 +11,14 @@ router.use(bodyParser.urlencoded({
 
 router.route('/')
     .get(function (req, res) {
-        res.send('<h1>Authorization</h1><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form>')
+        res.send('<h1>Sign In</h1><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form>')
     })
     .post(function (req, res) {
         if (req.body.email === 'a@a.a') {
             res.redirect(301, '/' + res.locals.lang + '/');
 
         } else {
-            res.send('<p>Authorization error</p>');
+            res.send('<h1>Sign In</h1><div style="color: #f30;">Autorization Error!</div><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form>');
         }
     });
 

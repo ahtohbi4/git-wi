@@ -3,11 +3,11 @@ var router = express.Router({
     strict: true
 });
 var bodyParser = require('body-parser');
-// var multer = require('multer');
 
-router.use(bodyParser.json()); // for parsing application/json
-router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// router.use(multer());
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 router.route('/')
     .get(function (req, res) {
@@ -16,6 +16,7 @@ router.route('/')
     .post(function (req, res) {
         if (req.body.email === 'a@a.a') {
             res.redirect(301, '/' + res.locals.lang + '/');
+
         } else {
             res.send('<p>Authorization error</p>');
         }

@@ -12,7 +12,6 @@ Validation.prototype._requiredParam = function (param) {
 }
 /**
  * @method check
- *
  * @param {string} test
  * @param {regexp} [pattern]
  */
@@ -26,15 +25,12 @@ Validation.prototype.check = function (test, pattern) {
 
 /**
  * @method checkEmail
- *
  * @param {string} test
  */
 Validation.prototype.checkEmail = function (test) {
-    this._requiredParam(test);
-
     var PATTERN_EMAIL = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
-    return PATTERN_EMAIL.test(test);
+    return this.check(test, PATTERN_EMAIL);
 }
 
 module.exports = Validation;

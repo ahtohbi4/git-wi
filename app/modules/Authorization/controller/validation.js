@@ -33,4 +33,14 @@ Validation.prototype.checkEmail = function (test) {
     return this.check(test, PATTERN_EMAIL);
 }
 
+/**
+ * @method checkPassword
+ * @param {string} test
+ */
+Validation.prototype.checkPassword = function (test) {
+    var PATTERN_PASSWORD = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+
+    return this.check(test, PATTERN_PASSWORD);
+}
+
 module.exports = Validation;

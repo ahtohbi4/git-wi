@@ -4,7 +4,7 @@ var router = express.Router({
 });
 var bodyParser = require('body-parser');
 
-var authorization = require('../controller/authorization');
+var Authorization = require('../controller/authorization');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
@@ -16,11 +16,13 @@ router.route('/')
         res.send('<h1>Sign In</h1><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form><p><a href="/' + res.locals.lang + '/registration/">Sign Up</a></p>')
     })
     .post(function (req, res) {
-        if (req.body.email === 'a@a.a') {
-            res.redirect(301, '/' + res.locals.lang + '/');
+        var authorization = new Authorization();
+        var authorize = authorization.authorize(req.body.email, req.body.password);
 
+        if (authorize.success) {
+            res.redirect(301, '/' + res.locals.lang + '/');
         } else {
-            res.send('<h1>Sign In</h1><div style="color: #f30;">Autorization Error!</div><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form><p><a href="/' + res.locals.lang + '/registration/">Sign Up</a></p>');
+            res.send('<h1>Sign In</h1><div style="color: #f30;">' + authorize.errors.join('<br>') + '</div><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form><p><a href="/' + res.locals.lang + '/registration/">Sign Up</a></p>');
         }
     });
 

@@ -43,4 +43,16 @@ Validation.prototype.checkPassword = function (test) {
     return this.check(test, PATTERN_PASSWORD);
 }
 
+/**
+ * @method checkEqualString
+ * @param {string} test1
+ * @param {string} test2
+ */
+Validation.prototype.checkEqualString = function (test1, test2) {
+    this._requiredParam(test1);
+    this._requiredParam(test2);
+
+    return (test1 === test2);
+}
+
 module.exports = new Validation();

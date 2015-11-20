@@ -4,7 +4,7 @@ var router = express.Router({
 });
 var bodyParser = require('body-parser');
 
-var Authorization = require('../controller/authorization');
+var authorization = require('../controller/authorization');
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
@@ -16,7 +16,6 @@ router.route('/')
         res.send('<h1>Sign In</h1><form action="" method="post"><input name="email" placeholder="email"><input type="password" name="password" placeholder="password"><button>Sign In</button></form><p><a href="/' + res.locals.lang + '/registration/">Sign Up</a></p>')
     })
     .post(function (req, res) {
-        var authorization = new Authorization();
         var authorize = authorization.authorize(req.body.email, req.body.password);
 
         if (authorize.success) {

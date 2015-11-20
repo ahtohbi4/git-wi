@@ -1,4 +1,4 @@
-var Validation = require('./validation');
+var validation = require('./validation');
 
 /**
  * Authorization
@@ -11,8 +11,6 @@ var Authorization = function () {}
  * @param {string} password
  */
 Authorization.prototype.authorize = function (email, password) {
-    var validation = new Validation();
-
     var result = {
             success: true
         },
@@ -35,4 +33,4 @@ Authorization.prototype.authorize = function (email, password) {
     return result;
 }
 
-module.exports = Authorization;
+module.exports =  new Authorization();

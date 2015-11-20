@@ -43,4 +43,4 @@ Validation.prototype.checkPassword = function (test) {
     return this.check(test, PATTERN_PASSWORD);
 }
 
-module.exports = Validation;
+module.exports = new Validation();

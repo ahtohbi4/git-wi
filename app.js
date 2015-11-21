@@ -11,7 +11,7 @@ var log = require(path.join(__dirname, 'libs/log'))(module);
 
 var router = require(path.join(__dirname, 'libs/router'));
 router.init({
-    file: path.join(__dirname, 'app/config/routing.json')
+    file: path.join(__dirname, config.get('routing'))
 });
 
 // app.use(express.favicon()); // отдаем стандартную фавиконку, можем здесь же свою задать

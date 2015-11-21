@@ -1,5 +1,5 @@
 {
     "static_page": {
-        "url": "/some_static_page/"
+        "uri": "/some_static_page/"
     }
 }

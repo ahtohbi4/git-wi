@@ -1,6 +1,6 @@
 {
     "main": {
-        "url": "/"
+        "uri": "/"
     },
     "_static": {
         "prefix": "/static",

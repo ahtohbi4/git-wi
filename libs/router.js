@@ -41,7 +41,10 @@ Router.prototype._parseLevel = function(routes, prefix) {
 
     for (routeName in routes) {
         if (routes[routeName].resource !== undefined) {
-            _this._parseLevel(_this._getRouteMapFromFile(routes[routeName].resource), prefix + routes[routeName].prefix);
+            var nextLevel = _this._getRouteMapFromFile(routes[routeName].resource);
+            var nextPrefix = prefix + (routes[routeName].prefix || '');
+
+            _this._parseLevel(nextLevel, nextPrefix);
         } else {
             _this._routeMap[routeName] = routes[routeName];
             _this._routeMap[routeName].uri = prefix + _this._routeMap[routeName].uri;

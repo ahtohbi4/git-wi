@@ -1,4 +1,7 @@
 {
+    "main": {
+        "uri": "/"
+    },
     "static_page": {
         "uri": "/some_static_page/"
     }

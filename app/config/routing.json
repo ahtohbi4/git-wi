@@ -1,4 +1,7 @@
 {
+    "root": {
+        "uri": "/"
+    },
     "_localized": {
         "prefix": "/:locale",
         "resource": "./app/config/routing_localized.json"

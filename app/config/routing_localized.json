@@ -1,0 +1,9 @@
+{
+    "main": {
+        "url": "/"
+    },
+    "_static": {
+        "prefix": "/static",
+        "resource": "./app/config/routing_static.json"
+    }
+}

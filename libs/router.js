@@ -9,7 +9,7 @@ Router.prototype.init = function(options) {
         this.file = options.file;
     }
 
-    this._routeMap = {};console.log(JSON.stringify(this._getRouteMapFromFile(this.file)));
+    this._routeMap = {};
     this._parseLevel(this._getRouteMapFromFile(this.file));
     console.log('_routeMap:\n' + JSON.stringify(this._routeMap));
 };
@@ -22,9 +22,9 @@ Router.prototype._parseLevel = function(routes, prefix) {
     var _this = this,
         prefix = prefix || '';
 
-    for (routeName in routes) {console.log(routeName);
+    for (routeName in routes) {
         if (routes[routeName].resource !== undefined) {
-            _this._parseLevel(_this._getRouteMapFromFile(routes[routeName].resource), routes[routeName].prefix);
+            _this._parseLevel(_this._getRouteMapFromFile(routes[routeName].resource), prefix + routes[routeName].prefix);
         } else {
             _this._routeMap[routeName] = routes[routeName];
             _this._routeMap[routeName].url = prefix + _this._routeMap[routeName].url;

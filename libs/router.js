@@ -17,16 +17,18 @@ Router.prototype.init = function(options) {
         this.file = options.file;
     }
 
-    this._routeMap = {};
-    this._parseLevel(this._getRouteMapFromFile(this.file));
-    console.log('_routeMap:\n' + JSON.stringify(this._routeMap));
+    this.routeMap = {};
+    this._generateRouteMap();
+
+    this.uriMap = {};
+    this._generateUriMap();
 };
 
 /**
- * @method _getRouteMapFromFile
+ * @method _getRoutesFromFile
  * @param {string} file
  */
-Router.prototype._getRouteMapFromFile = function (file) {
+Router.prototype._getRoutesFromFile = function (file) {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
@@ -39,19 +41,42 @@ Router.prototype._parseLevel = function(routes, prefix) {
     var _this = this,
         prefix = prefix || '';
 
-    for (routeName in routes) {
-        if (routes[routeName].resource !== undefined) {
-            var nextLevel = _this._getRouteMapFromFile(routes[routeName].resource);
-            var nextPrefix = prefix + (routes[routeName].prefix || '');
+    for (var routeName in routes) {
+        var route = routes[routeName];
+
+        if (route.resource !== undefined) {
+            var nextLevel = _this._getRoutesFromFile(route.resource);
+            var nextPrefix = prefix + (route.prefix || '');
 
             _this._parseLevel(nextLevel, nextPrefix);
         } else {
-            _this._routeMap[routeName] = routes[routeName];
-            _this._routeMap[routeName].uri = prefix + _this._routeMap[routeName].uri;
+            _this.routeMap[routeName] = route;
+            _this.routeMap[routeName].name = routeName;
+            _this.routeMap[routeName].uri = prefix + _this.routeMap[routeName].uri;
         }
     }
 
     return this;
+};
+
+/**
+ * @method _generateRouteMap
+ */
+Router.prototype._generateRouteMap = function() {
+    this._parseLevel(this._getRoutesFromFile(this.file));
+
+    return this;
+};
+
+/**
+ * @method _generateUriMap
+ */
+Router.prototype._generateUriMap = function() {
+    for (var routeName in this.routeMap) {
+        var route = this.routeMap[routeName];
+
+        this.uriMap[route.uri] = route;
+    }
 };
 
 module.exports = new Router();

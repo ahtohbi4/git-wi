@@ -3,7 +3,7 @@
         "uri": "/"
     },
     "_localized": {
-        "prefix": "/:locale",
+        "prefix": "/:_locale([a-z]{2})",
         "resource": "./app/config/routing_localized.json"
     }
 }

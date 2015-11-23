@@ -9,33 +9,35 @@ var path = require('path');
 var config = require(path.join(__dirname, 'libs/config'));
 var log = require(path.join(__dirname, 'libs/log'))(module);
 
-var router = require(path.join(__dirname, 'libs/router'));
-router.init({
-    file: path.join(__dirname, config.get('routing'))
-});
-
 // app.use(express.favicon()); // отдаем стандартную фавиконку, можем здесь же свою задать
 app.use(morgan('combined'));
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'compiled/')));
 
-app.use(Object.keys(config.get('i18n')).map(function (lang) {
-    return '/' + lang;
-}), require(path.join(__dirname, 'app/routing/routing_localized')));
+var router = require(path.join(__dirname, 'libs/router'));
+router.init({
+    file: path.join(__dirname, config.get('routing'))
+});
+
+for (var routeUri in router.uriMap) {
+    var route = router.uriMap[routeUri];
+
+    app.all(routeUri, function (req, res) {
+        if (!route.hasOwnProperty('_method') || route._method.indexOf(req.route.stack[0].method) != -1) {
+            res.send('Hi, I am route "' + req.route.path + '".\n' + 'I am on lang "' + req.params._locale + '".\n' + 'And I allowed "' + (router.uriMap[req.route.path]._method || 'all') + '" methods.\n' + 'Now it is a "' + req.route.stack[0].method + '".');
+        } else {
+            res.status(405);
+            res.send({
+                error: 'Method Not Allowed'
+            });
+        }
+    });
+}
 
 app.use(function (req, res){
     res.status(404);
     res.send({
         error: 'Not found'
-    });
-
-    return;
-});
-
-app.use(function (err, req, res){
-    res.status(err.status || 500);
-    res.send({
-        error: err.message
     });
 
     return;

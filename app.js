@@ -20,11 +20,12 @@ router.init({
 });
 
 for (var routeUri in router.uriMap) {
-    var route = router.uriMap[routeUri];
-
     app.all(routeUri, function (req, res) {
-        if (!route.hasOwnProperty('_method') || route._method.indexOf(req.route.stack[0].method) != -1) {
-            res.send('Hi, I am route "' + req.route.path + '".\n' + 'I am on lang "' + req.params._locale + '".\n' + 'And I allowed "' + (router.uriMap[req.route.path]._method || 'all') + '" methods.\n' + 'Now it is a "' + req.route.stack[0].method + '".');
+        var route = router.uriMap[req.route.path],
+            methods = route._methods ? (Array.isArray(route._methods) ? route._methods : [route._methods]) : ['all'];
+
+        if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
+            res.send('Hi, I am route "' + req.route.path + '".\n' + 'I am on lang "' + req.params._locale + '".\n' + 'And I allowed "' + (router.uriMap[req.route.path]._methods || 'all') + '" methods.\n' + 'Now it is a "' + req.route.stack[0].method + '".');
         } else {
             res.status(405);
             res.send({

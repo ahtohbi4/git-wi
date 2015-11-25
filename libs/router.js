@@ -54,14 +54,7 @@ Router.prototype.init = function() {
         });
     }
 
-    this.app.use(function (req, res){
-        res.status(404);
-        res.send({
-            error: 'Not found'
-        });
-
-        return;
-    });
+    this.sendNotFaund();
 };
 
 /**
@@ -117,6 +110,20 @@ Router.prototype._generateUriMap = function () {
 
         this.uriMap[route.uri] = route;
     }
+};
+
+/**
+ * @method sendNotFaund
+ */
+Router.prototype.sendNotFaund = function() {
+    this.app.use(function (req, res){
+        res.status(404);
+        res.send({
+            error: 'Not found'
+        });
+
+        return;
+    });
 };
 
 module.exports = new Router();

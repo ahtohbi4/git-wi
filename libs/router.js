@@ -8,15 +8,60 @@ var config = require(path.join(__dirname, 'config'));
 var Router = function () {
     var _this = this;
 
+    this.file = path.join(__dirname, config.get('routing'));
+
+    this.routeMap = {};
+    this._generateRouteMap();
+
+    this.uriMap = {};
+    this._generateUriMap();
+
     return function (app) {
-        _this.file = path.join(__dirname, config.get('routing'));
+        if (app === undefined) {
+            throw new Error('Could not apply router to undefined application.');
 
-        _this.routeMap = {};
-        _this._generateRouteMap();
+        } else if (typeof app !== 'function') {
+            throw new Error('Application should to be an express() function.');
 
-        _this.uriMap = {};
-        _this._generateUriMap();
+        } else {
+            _this.app = app;
+
+        }
+
+        _this.init();
     };
+};
+
+/**
+ * @method init
+ */
+Router.prototype.init = function() {
+    var _this = this;
+
+    for (var routeUri in this.uriMap) {
+        this.app.all(routeUri, function (req, res) {
+            var route = _this.uriMap[req.route.path],
+                methods = route._methods ? (Array.isArray(route._methods) ? route._methods : [route._methods]) : ['all'];
+
+            if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
+                res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + methods + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
+            } else {
+                res.status(405);
+                res.send({
+                    error: 'Method Not Allowed'
+                });
+            }
+        });
+    }
+
+    this.app.use(function (req, res){
+        res.status(404);
+        res.send({
+            error: 'Not found'
+        });
+
+        return;
+    });
 };
 
 /**

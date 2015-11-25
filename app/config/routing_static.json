@@ -4,6 +4,6 @@
     },
     "static_page": {
         "uri": "/some_static_page/",
-        "_methods": ["post", "get"]
+        "_methods": ["post"]
     }
 }

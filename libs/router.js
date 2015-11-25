@@ -45,16 +45,17 @@ Router.prototype.init = function() {
 
             if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
                 res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + methods + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
+
             } else {
-                res.status(405);
-                res.send({
-                    error: 'Method Not Allowed'
-                });
+                _this.sendMethodNotAllowed(req, res);
+
             }
         });
     }
 
-    this.sendNotFaund();
+    this.app.use(function (req, res){
+        _this.sendNotFaund(req, res);
+    });
 };
 
 /**
@@ -115,15 +116,25 @@ Router.prototype._generateUriMap = function () {
 /**
  * @method sendNotFaund
  */
-Router.prototype.sendNotFaund = function() {
-    this.app.use(function (req, res){
-        res.status(404);
-        res.send({
-            error: 'Not found'
-        });
-
-        return;
+Router.prototype.sendNotFaund = function(req, res) {
+    res.status(404);
+    res.send({
+        error: 'Not found'
     });
+
+    return this;
+};
+
+/**
+ * @method sendMethodNotAllowed
+ */
+Router.prototype.sendMethodNotAllowed = function(req, res) {
+    res.status(405);
+    res.send({
+        error: 'Method Not Allowed'
+    });
+
+    return this;
 };
 
 module.exports = new Router();

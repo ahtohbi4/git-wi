@@ -1,27 +1,22 @@
 var fs = require('fs');
+var path = require('path');
+var config = require(path.join(__dirname, 'config'));
 
 /**
  * Router
  */
-var Router = function () {};
+var Router = function () {
+    var _this = this;
 
-/**
- * @method init
- * @param {object} options
- * @param {string} file
- */
-Router.prototype.init = function(options) {
-    if (options === undefined || options.file === undefined) {
-        throw new Error('Missed the required param!');
-    } else {
-        this.file = options.file;
-    }
+    return function (app) {
+        _this.file = path.join(__dirname, config.get('routing'));
 
-    this.routeMap = {};
-    this._generateRouteMap();
+        _this.routeMap = {};
+        _this._generateRouteMap();
 
-    this.uriMap = {};
-    this._generateUriMap();
+        _this.uriMap = {};
+        _this._generateUriMap();
+    };
 };
 
 /**
@@ -37,7 +32,7 @@ Router.prototype._getRoutesFromFile = function (file) {
  * @param {object} routes
  * @param {string} [prefix]
  */
-Router.prototype._parseLevel = function(routes, prefix) {
+Router.prototype._parseLevel = function (routes, prefix) {
     var _this = this,
         prefix = prefix || '';
 
@@ -62,7 +57,7 @@ Router.prototype._parseLevel = function(routes, prefix) {
 /**
  * @method _generateRouteMap
  */
-Router.prototype._generateRouteMap = function() {
+Router.prototype._generateRouteMap = function () {
     this._parseLevel(this._getRoutesFromFile(this.file));
 
     return this;
@@ -71,7 +66,7 @@ Router.prototype._generateRouteMap = function() {
 /**
  * @method _generateUriMap
  */
-Router.prototype._generateUriMap = function() {
+Router.prototype._generateUriMap = function () {
     for (var routeName in this.routeMap) {
         var route = this.routeMap[routeName];
 

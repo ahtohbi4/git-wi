@@ -8,15 +8,7 @@ var config = require(path.join(__dirname, 'config'));
 var Router = function () {
     var _this = this;
 
-    this.file = path.join(__dirname, config.get('routing'));
-
-    this.routeMap = {};
-    this._generateRouteMap();
-
-    this.uriMap = {};
-    this._generateUriMap();
-
-    return function (app) {
+    return function (app, options) {
         if (app === undefined) {
             throw new Error('Could not apply router to undefined application.');
 
@@ -25,6 +17,14 @@ var Router = function () {
 
         } else {
             _this.app = app;
+
+        }
+
+        if (options.file === undefined) {
+            throw new Error('Route\'s file have to be specified.');
+
+        } else {
+            _this.file = options.file;
 
         }
 
@@ -37,6 +37,12 @@ var Router = function () {
  */
 Router.prototype.init = function() {
     var _this = this;
+
+    this.routeMap = {};
+    this._generateRouteMap();
+
+    this.uriMap = {};
+    this._generateUriMap();
 
     for (var routeUri in this.uriMap) {
         this.app.all(routeUri, function (req, res) {

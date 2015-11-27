@@ -16,7 +16,9 @@ app.use(express.static(path.join(__dirname, 'compiled/')));
 
 // router
 var router = require(path.join(__dirname, 'libs/router'));
-router(app);
+router(app, {
+    file: path.join(__dirname, config.get('routing'))
+});
 
 app.listen(config.get('port'), function (){
     log.info('Express server listening on port ' + config.get('port'));

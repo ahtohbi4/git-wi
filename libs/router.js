@@ -140,4 +140,12 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
     return this;
 };
 
+/**
+ * @method generateUri
+ * @param routeName
+ * @param attributes
+ */
+Router.prototype.generateUri = function(routeName, attributes) {
+};
+
 module.exports = new Router();

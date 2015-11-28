@@ -1,6 +1,4 @@
 var fs = require('fs');
-var path = require('path');
-var config = require(path.join(__dirname, 'config'));
 
 /**
  * Router
@@ -78,21 +76,20 @@ Router.prototype._getRoutesFromFile = function (file) {
  * @param {string} [prefix]
  */
 Router.prototype._parseLevel = function (routes, prefix) {
-    var _this = this,
-        prefix = prefix || '';
+    var prefix = prefix || '';
 
     for (var routeName in routes) {
         var route = routes[routeName];
 
         if (route.resource !== undefined) {
-            var nextLevel = _this._getRoutesFromFile(route.resource);
+            var nextLevel = this._getRoutesFromFile(route.resource);
             var nextPrefix = prefix + (route.prefix || '');
 
-            _this._parseLevel(nextLevel, nextPrefix);
+            this._parseLevel(nextLevel, nextPrefix);
         } else {
-            _this.routeMap[routeName] = route;
-            _this.routeMap[routeName].name = routeName;
-            _this.routeMap[routeName].uri = prefix + _this.routeMap[routeName].uri;
+            this.routeMap[routeName] = route;
+            this.routeMap[routeName].name = routeName;
+            this.routeMap[routeName].uri = prefix + this.routeMap[routeName].uri;
         }
     }
 

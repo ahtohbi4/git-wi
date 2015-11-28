@@ -48,7 +48,7 @@ Router.prototype.init = function() {
                 methods = _this.getMethods(route);
 
             if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
-                res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + methods + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
+                _this.getController(route)(req, res);
 
             } else {
                 _this.sendMethodNotAllowed(req, res);
@@ -138,7 +138,9 @@ Router.prototype.getMethods = function(route) {
  * @return {function}
  */
 Router.prototype.getController = function(route) {
-    return function () {};
+    return function (req, res) {
+        res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + 'methods' + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
+    };
 };
 
 /**

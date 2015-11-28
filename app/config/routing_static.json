@@ -2,8 +2,11 @@
     "main": {
         "uri": "/"
     },
-    "static_page": {
-        "uri": "/some_static_page/",
+    "static_page_by_all_methods": {
+        "uri": "/static_page/"
+    },
+    "static_page_by_post_method": {
+        "uri": "/static_page/~post",
         "_methods": ["post"]
     }
 }

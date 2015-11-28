@@ -45,7 +45,7 @@ Router.prototype.init = function() {
     for (var routeUri in this.uriMap) {
         this.app.all(routeUri, function (req, res) {
             var route = _this.uriMap[req.route.path],
-                methods = _this.getMethods(route._methods);
+                methods = _this.getMethods(route);
 
             if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
                 res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + methods + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
@@ -119,19 +119,16 @@ Router.prototype._generateUriMap = function () {
 
 /**
  * @method getMethods
- * @param {string|array} methods
+ * @param {object} route
  * @return {array}
  */
-Router.prototype.getMethods = function(methods) {
-    if (methods === undefined) {
-        return ['all'];
+Router.prototype.getMethods = function(route) {
+    var methods = route._methods || ['all'];
 
-    } else if (!Array.isArray(methods)) {
+    if (!Array.isArray(methods)) {
         return [methods];
-
     } else {
         return methods;
-
     }
 };
 

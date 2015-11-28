@@ -45,7 +45,7 @@ Router.prototype.init = function() {
     for (var routeUri in this.uriMap) {
         this.app.all(routeUri, function (req, res) {
             var route = _this.uriMap[req.route.path],
-                methods = route._methods ? (Array.isArray(route._methods) ? route._methods : [route._methods]) : ['all'];
+                methods = _this.getMethods(route._methods);
 
             if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
                 res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + methods + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
@@ -65,6 +65,7 @@ Router.prototype.init = function() {
 /**
  * @method _getRoutesFromFile
  * @param {string} file
+ * @return {json}
  */
 Router.prototype._getRoutesFromFile = function (file) {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -117,7 +118,27 @@ Router.prototype._generateUriMap = function () {
 };
 
 /**
+ * @method getMethods
+ * @param {string|array} methods
+ * @return {array}
+ */
+Router.prototype.getMethods = function(methods) {
+    if (methods === undefined) {
+        return ['all'];
+
+    } else if (!Array.isArray(methods)) {
+        return [methods];
+
+    } else {
+        return methods;
+
+    }
+};
+
+/**
  * @method sendNotFaund
+ * @param {object} req
+ * @param {object} res
  */
 Router.prototype.sendNotFaund = function(req, res) {
     res.status(404);
@@ -130,6 +151,8 @@ Router.prototype.sendNotFaund = function(req, res) {
 
 /**
  * @method sendMethodNotAllowed
+ * @param {object} req
+ * @param {object} res
  */
 Router.prototype.sendMethodNotAllowed = function(req, res) {
     res.status(405);
@@ -142,8 +165,9 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
 
 /**
  * @method generateUri
- * @param routeName
- * @param attributes
+ * @param {string} routeName
+ * @param {object} attributes
+ * @return {string}
  */
 Router.prototype.generateUri = function(routeName, attributes) {
 };

@@ -133,6 +133,15 @@ Router.prototype.getMethods = function(route) {
 };
 
 /**
+ * @method getController
+ * @param {object} router
+ * @return {function}
+ */
+Router.prototype.getController = function(route) {
+    return function () {};
+};
+
+/**
  * @method sendNotFaund
  * @param {object} req
  * @param {object} res

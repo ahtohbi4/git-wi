@@ -143,9 +143,17 @@ Router.prototype.getMethods = function(route) {
  * @return {function}
  */
 Router.prototype.getController = function(route) {
-    return function (req, res) {
-        res.send('Hi, I am route "' + req.route.path + '".<br>' + 'I am on lang "' + req.params._locale + '".<br>' + 'And I allowed "' + 'methods' + '" methods.<br>' + 'Now it is a "' + req.route.stack[0].method + '".');
-    };
+    var result;
+
+    if (!route._controller || this.getFormat(route) == 'json') {
+        result = function (req, res) {
+            res.json({});
+        };
+    } else {
+        result = require(route._controller);
+    }
+
+    return result;
 };
 
 /**
@@ -161,7 +169,9 @@ Router.prototype.getFormat = function(route) {
             'xml'
         ];
 
-    if (route._format === undefined || formats.indexOf(route._format) == -1) {
+    if (!this.getTemplate(route)) {
+        result = 'json';
+    } else if (route._format === undefined || formats.indexOf(route._format) == -1) {
         result = 'html';
     } else {
         result = route._format;
@@ -177,6 +187,16 @@ Router.prototype.getFormat = function(route) {
  */
 Router.prototype.getTemplate = function(route) {
     var result;
+
+    if (route._template === undefined) {
+        result = '<!doctype html><html><head><title>' + route.name + '</title></head><body><h1>' + route.name + '</h1></body></html>'
+    } else {
+        if (!fs.statSync(route._template).isFile()) {
+            throw new Error('Template ' + route._template + ' not found.');
+        } else {
+            result = fs.readFileSync(route._template, 'utf-8');
+        }
+    }
 
     return result;
 };

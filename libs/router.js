@@ -75,6 +75,7 @@ Router.prototype._getRoutesFromFile = function (file) {
  * @method _parseLevel
  * @param {object} routes
  * @param {string} [prefix]
+ * @return {Router}
  */
 Router.prototype._parseLevel = function (routes, prefix) {
     var prefix = prefix || '';
@@ -99,6 +100,7 @@ Router.prototype._parseLevel = function (routes, prefix) {
 
 /**
  * @method _generateRouteMap
+ * @return {Router}
  */
 Router.prototype._generateRouteMap = function () {
     this._parseLevel(this._getRoutesFromFile(this.file));
@@ -123,13 +125,16 @@ Router.prototype._generateUriMap = function () {
  * @return {array}
  */
 Router.prototype.getMethods = function(route) {
-    var methods = route._methods || ['all'];
+    var result,
+        methods = route._methods || ['all'];
 
     if (!Array.isArray(methods)) {
-        return [methods];
+        result = [methods];
     } else {
-        return methods;
+        result = methods;
     }
+
+    return result;
 };
 
 /**
@@ -149,12 +154,12 @@ Router.prototype.getController = function(route) {
  * @return {string}
  */
 Router.prototype.getFormat = function(route) {
-    var formats = [
+    var result,
+        formats = [
             'html',
             'json',
             'xml'
-        ],
-        result;
+        ];
 
     if (route._format === undefined || formats.indexOf(route._format) == -1) {
         result = 'html';
@@ -169,6 +174,7 @@ Router.prototype.getFormat = function(route) {
  * @method sendNotFaund
  * @param {object} req
  * @param {object} res
+ * @return {Router}
  */
 Router.prototype.sendNotFaund = function(req, res) {
     res.status(404);
@@ -183,6 +189,7 @@ Router.prototype.sendNotFaund = function(req, res) {
  * @method sendMethodNotAllowed
  * @param {object} req
  * @param {object} res
+ * @return {Router}
  */
 Router.prototype.sendMethodNotAllowed = function(req, res) {
     res.status(405);
@@ -200,6 +207,9 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
  * @return {string}
  */
 Router.prototype.generateUri = function(routeName, attributes) {
+    var result;
+
+    return result;
 };
 
 module.exports = new Router();

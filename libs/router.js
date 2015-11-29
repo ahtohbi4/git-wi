@@ -144,6 +144,28 @@ Router.prototype.getController = function(route) {
 };
 
 /**
+ * @method getFormat
+ * @param {object} router
+ * @return {string}
+ */
+Router.prototype.getFormats = function(route) {
+    var formats = [
+            'html',
+            'json',
+            'xml'
+        ],
+        result;
+
+    if (route._format === undefined or formats.indexOf(route._format) == -1) {
+        result = 'html';
+    } else {
+        result = route._format;
+    }
+
+    return result;
+};
+
+/**
  * @method sendNotFaund
  * @param {object} req
  * @param {object} res

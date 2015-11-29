@@ -148,7 +148,7 @@ Router.prototype.getController = function(route) {
  * @param {object} router
  * @return {string}
  */
-Router.prototype.getFormats = function(route) {
+Router.prototype.getFormat = function(route) {
     var formats = [
             'html',
             'json',
@@ -156,7 +156,7 @@ Router.prototype.getFormats = function(route) {
         ],
         result;
 
-    if (route._format === undefined or formats.indexOf(route._format) == -1) {
+    if (route._format === undefined || formats.indexOf(route._format) == -1) {
         result = 'html';
     } else {
         result = route._format;

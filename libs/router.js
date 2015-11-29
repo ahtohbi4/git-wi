@@ -171,6 +171,17 @@ Router.prototype.getFormat = function(route) {
 };
 
 /**
+ * @method getTemplate
+ * @param {object} router
+ * @return {string}
+ */
+Router.prototype.getTemplate = function(route) {
+    var result;
+
+    return result;
+};
+
+/**
  * @method sendNotFaund
  * @param {object} req
  * @param {object} res

@@ -3,7 +3,8 @@
         "uri": "/"
     },
     "static_page_by_all_methods": {
-        "uri": "/static_page/"
+        "uri": "/static_page/",
+        "_controller": "app/modules/Authorization/controller/authorization.js"
     },
     "static_page_by_post_method": {
         "uri": "/static_page/~post",

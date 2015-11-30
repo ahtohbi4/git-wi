@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 /**
  * Router
@@ -6,25 +7,29 @@ var fs = require('fs');
 var Router = function () {
     var _this = this;
 
+    /**
+     * @constructs
+     * @param {Express} app
+     * @param {object} options
+     * @param {string} options.file
+     * @param {string} [options.baseDir=__dirname]
+     */
     return function (app, options) {
         if (app === undefined) {
             throw new Error('Could not apply router to undefined application.');
-
         } else if (typeof app !== 'function') {
             throw new Error('Application should to be an express() function.');
-
         } else {
             _this.app = app;
-
         }
 
         if (options.file === undefined) {
             throw new Error('Route\'s file have to be specified.');
-
         } else {
             _this.file = options.file;
-
         }
+
+        _this.baseDir = options.baseDir || __dirname;
 
         _this.init();
     };
@@ -68,7 +73,7 @@ Router.prototype.init = function() {
  * @return {json}
  */
 Router.prototype._getRoutesFromFile = function (file) {
-    return JSON.parse(fs.readFileSync(file, 'utf8'));
+    return JSON.parse(fs.readFileSync(path.join(this.baseDir, file), 'utf8'));
 }
 
 /**
@@ -150,7 +155,7 @@ Router.prototype.getController = function(route) {
             res.json({});
         };
     } else {
-        result = require(route._controller);
+        result = require(path.join(this.baseDir, route._controller));
     }
 
     return result;

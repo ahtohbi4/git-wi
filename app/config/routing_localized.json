@@ -1,5 +1,5 @@
 {
     "_static": {
-        "resource": "./app/config/routing_static.json"
+        "resource": "app/config/routing_static.json"
     }
 }

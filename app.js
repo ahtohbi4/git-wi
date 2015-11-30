@@ -17,7 +17,8 @@ app.use(express.static(path.join(__dirname, 'compiled/')));
 // router
 var router = require(path.join(__dirname, 'libs/router'));
 router(app, {
-    file: path.join(__dirname, config.get('routing'))
+    baseDir: __dirname,
+    file: config.get('routing')
 });
 
 app.listen(config.get('port'), function (){

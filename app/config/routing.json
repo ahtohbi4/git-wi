@@ -4,6 +4,6 @@
     },
     "_localized": {
         "prefix": "/:_locale([a-z]{2})",
-        "resource": "./app/config/routing_localized.json"
+        "resource": "app/config/routing_localized.json"
     }
 }

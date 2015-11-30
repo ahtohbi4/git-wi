@@ -4,7 +4,7 @@
     },
     "static_page_by_all_methods": {
         "uri": "/static_page/",
-        "_controller": "app/modules/Authorization/controller/authorization.js"
+        "_controller": "app/modules/Default/controllers/someController.js"
     },
     "static_page_by_post_method": {
         "uri": "/static_page/~post",

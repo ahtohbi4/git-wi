@@ -162,24 +162,32 @@ Router.prototype.getController = function(route) {
 };
 
 /**
+ * @property
+ */
+Router.prototype.FORMATS = {
+    css: 'text/css',
+    csv: 'text/csv',
+    html: 'text/html',
+    text: 'text/plain',
+    xml: 'text/xml',
+    javascript: 'application/javascript',
+    json: 'application/json'
+};
+
+/**
  * @method getFormat
  * @param {object} router
  * @return {string}
  */
 Router.prototype.getFormat = function(route) {
-    var result,
-        formats = [
-            'html',
-            'json',
-            'xml'
-        ];
+    var result;
 
     if (!this.getTemplate(route)) {
         result = 'json';
-    } else if (route._format === undefined || formats.indexOf(route._format) == -1) {
+    } else if (route.format === undefined || this.FORMATS.hasOwnProperty(route.format)) {
         result = 'html';
     } else {
-        result = route._format;
+        result = route.format;
     }
 
     return result;

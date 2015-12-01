@@ -96,7 +96,7 @@ Router.prototype._parseLevel = function (routes, prefix) {
         } else {
             this.routeMap[routeName] = route;
             this.routeMap[routeName].name = routeName;
-            this.routeMap[routeName].uri = prefix + this.routeMap[routeName].uri;
+            this.routeMap[routeName].path = prefix + this.routeMap[routeName].path;
         }
     }
 
@@ -120,7 +120,7 @@ Router.prototype._generateUriMap = function () {
     for (var routeName in this.routeMap) {
         var route = this.routeMap[routeName];
 
-        this.uriMap[route.uri] = route;
+        this.uriMap[route.path] = route;
     }
 };
 
@@ -150,12 +150,12 @@ Router.prototype.getMethods = function(route) {
 Router.prototype.getController = function(route) {
     var result;
 
-    if (!route._controller || this.getFormat(route) == 'json') {
+    if (!route.controller || this.getFormat(route) == 'json') {
         result = function (req, res) {
             res.json({});
         };
     } else {
-        result = require(path.join(this.baseDir, route._controller));
+        result = require(path.join(this.baseDir, route.controller));
     }
 
     return result;
@@ -193,13 +193,13 @@ Router.prototype.getFormat = function(route) {
 Router.prototype.getTemplate = function(route) {
     var result;
 
-    if (route._template === undefined) {
+    if (route.template === undefined) {
         result = '<!doctype html><html><head><title>' + route.name + '</title></head><body><h1>' + route.name + '</h1></body></html>'
     } else {
-        if (!fs.statSync(route._template).isFile()) {
-            throw new Error('Template ' + route._template + ' not found.');
+        if (!fs.statSync(route.template).isFile()) {
+            throw new Error('Template ' + route.template + ' not found.');
         } else {
-            result = fs.readFileSync(route._template, 'utf-8');
+            result = fs.readFileSync(route.template, 'utf-8');
         }
     }
 

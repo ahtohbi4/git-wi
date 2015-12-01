@@ -1,9 +1,9 @@
 {
     "root": {
-        "uri": "/"
+        "path": "/"
     },
     "_localized": {
-        "prefix": "/:_locale(en|ru)",
-        "resource": "app/config/routing_localized.json"
+        "resource": "app/config/routing_localized.json",
+        "prefix": "/:_locale(en|ru)"
     }
 }

@@ -1,13 +1,13 @@
 {
     "main": {
-        "uri": "/"
+        "path": "/"
     },
     "static_page_by_all_methods": {
-        "uri": "/static_page/",
-        "_controller": "app/modules/Default/controllers/someController.js"
+        "path": "/static_page/",
+        "controller": "app/modules/Default/controllers/someController.js"
     },
     "static_page_by_post_method": {
-        "uri": "/static_page/~post",
-        "_methods": ["post"]
+        "path": "/static_page/~post",
+        "methods": ["post"]
     }
 }

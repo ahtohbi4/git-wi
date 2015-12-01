@@ -1,7 +1,9 @@
 {
     "port": 1337,
 
-    "routing": "app/config/routing.json",
+    "router": {
+        "resource": "app/config/routing.json"
+    },
 
     "i18n": {
         "en": {

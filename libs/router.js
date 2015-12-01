@@ -162,7 +162,7 @@ Router.prototype.getController = function(route) {
 };
 
 /**
- * @property
+ * @property FORMATS
  */
 Router.prototype.FORMATS = {
     css: 'text/css',

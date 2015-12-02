@@ -44,25 +44,11 @@ Router.prototype.init = function() {
     this.routeMap = {};
     this._generateRouteMap();
 
-    this.uriMap = {};
-    this._generateUriMap();
-
-    for (var routeUri in this.uriMap) {
-        this.app.all(routeUri, function (req, res) {
-            var route = _this.uriMap[req.route.path],
-                methods = _this.getMethods(route);
-
-            if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
-                _this.getController(route)(req, res);
-
-            } else {
-                _this.sendMethodNotAllowed(req, res);
-
-            }
-        });
+    for (var name in this.routeMap) {
+        this._applyRoute(this.routeMap[name]);
     }
 
-    this.app.use(function (req, res){
+    this.app.use(function (req, res) {
         _this.sendNotFaund(req, res);
     });
 };
@@ -114,14 +100,25 @@ Router.prototype._generateRouteMap = function () {
 };
 
 /**
- * @method _generateUriMap
+ * @methid _applyRoute
+ * @param {object} route
+ * @return {Router}
  */
-Router.prototype._generateUriMap = function () {
-    for (var routeName in this.routeMap) {
-        var route = this.routeMap[routeName];
+Router.prototype._applyRoute = function(route) {
+    var _this = this,
+        methods = this.getMethods(route);
 
-        this.uriMap[route.path] = route;
-    }
+    this.app.all(route.path, function (req, res) {
+        if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
+            _this.getController(route)(req, res);
+
+        } else {
+            _this.sendMethodNotAllowed(req, res);
+
+        }
+    });
+
+    return this;
 };
 
 /**
@@ -131,7 +128,7 @@ Router.prototype._generateUriMap = function () {
  */
 Router.prototype.getMethods = function(route) {
     var result,
-        methods = route._methods || ['all'];
+        methods = route.methods || ['all'];
 
     if (!Array.isArray(methods)) {
         result = [methods];
@@ -163,6 +160,7 @@ Router.prototype.getController = function(route) {
 
 /**
  * @property FORMATS
+ * @see: https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_MIME-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2
  */
 Router.prototype.FORMATS = {
     css: 'text/css',

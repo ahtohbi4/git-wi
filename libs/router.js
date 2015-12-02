@@ -31,18 +31,18 @@ var Router = function () {
 
         _this.baseDir = options.baseDir || __dirname;
 
-        _this.init();
+        _this._start();
     };
 };
 
 /**
- * @method init
+ * @method _start
  */
-Router.prototype.init = function() {
+Router.prototype._start = function() {
     var _this = this;
 
     this.routeMap = {};
-    this._generateRouteMap();
+    this._normalizeRoutesMap(this._getRoutesFromFile(this.file));
 
     for (var name in this.routeMap) {
         this._applyRoute(this.routeMap[name]);
@@ -54,35 +54,26 @@ Router.prototype.init = function() {
 };
 
 /**
- * @method _getRoutesFromFile
- * @param {string} file
- * @return {json}
- */
-Router.prototype._getRoutesFromFile = function (file) {
-    return JSON.parse(fs.readFileSync(path.join(this.baseDir, file), 'utf8'));
-}
-
-/**
- * @method _parseLevel
+ * @method _normalizeRoutesMap
  * @param {object} routes
  * @param {string} [prefix]
  * @return {Router}
  */
-Router.prototype._parseLevel = function (routes, prefix) {
+Router.prototype._normalizeRoutesMap = function (routes, prefix) {
     var prefix = prefix || '';
 
-    for (var routeName in routes) {
-        var route = routes[routeName];
+    for (var name in routes) {
+        var route = routes[name];
 
         if (route.resource !== undefined) {
             var nextLevel = this._getRoutesFromFile(route.resource);
             var nextPrefix = prefix + (route.prefix || '');
 
-            this._parseLevel(nextLevel, nextPrefix);
+            this._normalizeRoutesMap(nextLevel, nextPrefix);
         } else {
-            this.routeMap[routeName] = route;
-            this.routeMap[routeName].name = routeName;
-            this.routeMap[routeName].path = prefix + this.routeMap[routeName].path;
+            this.routeMap[name] = route;
+            this.routeMap[name].name = name;
+            this.routeMap[name].path = prefix + this.routeMap[name].path;
         }
     }
 
@@ -90,14 +81,13 @@ Router.prototype._parseLevel = function (routes, prefix) {
 };
 
 /**
- * @method _generateRouteMap
- * @return {Router}
+ * @method _getRoutesFromFile
+ * @param {string} file
+ * @return {json}
  */
-Router.prototype._generateRouteMap = function () {
-    this._parseLevel(this._getRoutesFromFile(this.file));
-
-    return this;
-};
+Router.prototype._getRoutesFromFile = function (file) {
+    return JSON.parse(fs.readFileSync(path.join(this.baseDir, file), 'utf8'));
+}
 
 /**
  * @methid _applyRoute

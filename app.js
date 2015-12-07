@@ -14,6 +14,10 @@ app.use(morgan('combined'));
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'compiled/')));
 
+var Twig = require('twig');
+app.set('views', __dirname);
+app.set('view engine', 'twig');
+
 // router
 var router = require(path.join(__dirname, 'libs/router'));
 router(app, {

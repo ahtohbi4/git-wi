@@ -1,5 +1,9 @@
 {
     "_static": {
         "resource": "app/config/routing_static.json"
+    },
+    "_authorization": {
+        "resource": "app/modules/Authorization/config/routing.json",
+        "prefix": "/login"
     }
 }

@@ -1,0 +1,26 @@
+{% extends 'app/resources/views/layout.html.twig' %}
+
+{% block meta_title %}Sign In{% endblock %}
+
+{% block content %}
+    <h1>Sign In</h1>
+
+    {% if data.errors|default([]) is not empty %}
+        {% for error in data.errors %}
+            <div style="color: #f30;">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+    <form action="/ru/login/" method="post">
+        <div>
+            <label>e-mail:</label>
+            <input name="email">
+        </div>
+        <div>
+            <label>password:</label>
+            <input name="password" type="password">
+        </div>
+        <div>
+            <button>Send</button>
+        </div>
+    </form>
+{% endblock %}

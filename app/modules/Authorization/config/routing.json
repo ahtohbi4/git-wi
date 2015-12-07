@@ -1,0 +1,13 @@
+{
+    "auth_form": {
+        "path": "/",
+        "controller": "app/modules/Authorization/controller/authorization.js",
+        "template": "app/modules/Authorization/views/auth.html.twig",
+        "methods": ["get"]
+    },
+    "auth": {
+        "path": "/",
+        "controller": "app/modules/Authorization/controller/authorization.js",
+        "methods": ["post"]
+    }
+}

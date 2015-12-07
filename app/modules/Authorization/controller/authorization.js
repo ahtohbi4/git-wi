@@ -3,13 +3,22 @@
  * @return {function}
  */
 module.exports =  function (req, res) {
-    return {
-        data: {
-            errors: [
-                req.method,
-                'Message #1',
-                'Message #2'
-            ]
-        }
-    };
+    switch (req.method.toLowerCase()) {
+        case 'post':
+            if (/* email and password is valid */ true) {
+                res.redirect(301, '/ru/');
+            } else {
+                return {
+                    data: {
+                        errors: [
+                            'Authorization Error!'
+                        ]
+                    }
+                };
+            }
+            break;
+        case 'get':
+        default:
+            return {};
+    }
 };

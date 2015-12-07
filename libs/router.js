@@ -98,14 +98,10 @@ Router.prototype._applyRoute = function(route) {
     var _this = this,
         methods = this.getMethods(route);
 
-    this.app.all(route.path, function (req, res) {
-        if (methods.indexOf('all') != -1 || methods.indexOf(req.route.stack[0].method) != -1) {
-            _this.getController(route)(req, res);
-
-        } else {
-            _this.sendMethodNotAllowed(req, res);
-
-        }
+    methods.forEach(function (method) {
+        _this.app[method](route.path, function(req, res) {
+            res.render(_this.getTemplate(route), _this.getController(route)(req, res));
+        });
     });
 
     return this;
@@ -190,13 +186,10 @@ Router.prototype.getTemplate = function(route) {
     var result;
 
     if (route.template === undefined) {
+        // TODO: Replace this to link to the static page
         result = '<!doctype html><html><head><title>' + route.name + '</title></head><body><h1>' + route.name + '</h1></body></html>'
     } else {
-        if (!fs.statSync(route.template).isFile()) {
-            throw new Error('Template ' + route.template + ' not found.');
-        } else {
-            result = fs.readFileSync(route.template, 'utf-8');
-        }
+        result = route.template;
     }
 
     return result;

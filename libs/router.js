@@ -100,7 +100,7 @@ Router.prototype._applyRoute = function(route) {
 
     methods.forEach(function (method) {
         _this.app[method](route.path, function(req, res) {
-            res.render(_this.getTemplate(route), _this.getController(route)(req, res));
+            res.render(_this.getTemplate(route), _this.getController(route)(req, res, _this));
         });
     });
 

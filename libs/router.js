@@ -234,6 +234,12 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
 Router.prototype.generateUri = function(routeName, attributes) {
     var result;
 
+    if (this.routeMap[routeName] === undefined) {
+        throw new Error('Route name ' + routeName + ' is undefined.');
+    }
+
+    result = this.routeMap[routeName].path;
+
     return result;
 };
 

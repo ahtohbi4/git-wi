@@ -3,7 +3,7 @@
  * @return {function}
  */
 module.exports =  function (req, res, router) {
-    res.send(router.generateUri());
+    res.send(router.generateUri('main'));
 
     switch (req.method.toLowerCase()) {
         case 'post':

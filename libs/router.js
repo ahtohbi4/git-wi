@@ -226,12 +226,12 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
 };
 
 /**
- * @method generateUri
+ * @method generate
  * @param {string} routeName
  * @param {object} attributes
  * @return {string}
  */
-Router.prototype.generateUri = function(routeName, attributes) {
+Router.prototype.generate = function(routeName, attributes) {
     var result;
 
     if (this.routeMap[routeName] === undefined) {

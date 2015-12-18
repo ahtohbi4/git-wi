@@ -94,7 +94,7 @@ Router.prototype._getRoutesFromFile = function (file) {
 }
 
 /**
- * @methid _applyRoute
+ * @method _applyRoute
  * @param {object} route
  * @return {Router}
  */
@@ -112,7 +112,7 @@ Router.prototype._applyRoute = function(route) {
 };
 
 /**
- * @methid _getPath
+ * @method _getPath
  * @param {object} route
  * @return {string}
  */

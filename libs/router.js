@@ -103,12 +103,31 @@ Router.prototype._applyRoute = function(route) {
         methods = this.getMethods(route);
 
     methods.forEach(function (method) {
-        _this.app[method](route.path, function(req, res) {
+        _this.app[method](_this._getPath(route), function(req, res) {
             res.render(_this.getTemplate(route), _this.getController(route)(req, res, _this));
         });
     });
 
     return this;
+};
+
+/**
+ * @methid _getPath
+ * @param {object} route
+ * @return {string}
+ */
+Router.prototype._getPath = function(route) {
+    var result,
+        path = route.path || '',
+        PARAM_PATTERN = /\{([^}]+)\}/g;
+
+    result = path.replace(PARAM_PATTERN, function (match, name) {
+        var pattern = (route.requirements[name] !== undefined) ? '(' + route.requirements[name] + ')' : '';
+
+        return ':' + name + pattern;
+    });
+
+    return result;
 };
 
 /**

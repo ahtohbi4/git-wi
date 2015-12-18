@@ -4,10 +4,15 @@
     },
     "static_page_by_all_methods": {
         "path": "/static_page/",
-        "controller": "app/modules/Default/controllers/someController.js"
-    },
+        "defaults": {
+            "_controller": "app/modules/Default/controllers/someController.js"
+        }
+   },
     "static_page_by_post_method": {
         "path": "/static_page/~post",
+        "defaults": {
+            "_controller": "app/modules/Default/controllers/someController.js"
+        },
         "methods": ["post"]
     }
 }

@@ -4,6 +4,9 @@
     },
     "_localized": {
         "resource": "app/config/routing_localized.json",
-        "prefix": "/:_locale(en|ru)"
+        "prefix": "/{_locale}",
+        "requirements": {
+            "_locale": "en|ru"
+        }
     }
 }

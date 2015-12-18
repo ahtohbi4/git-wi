@@ -71,9 +71,13 @@ Router.prototype._normalizeRoutesMap = function (routes, prefix) {
 
             this._normalizeRoutesMap(nextLevel, nextPrefix);
         } else {
+            route.name = name;
+            route.defaults = route.defaults || {};
+            route.requirements = route.requirements || {};
+            route.methods = route.methods || ['all'];
+            route.path = prefix + route.path;
+
             this.routeMap[name] = route;
-            this.routeMap[name].name = name;
-            this.routeMap[name].path = prefix + this.routeMap[name].path;
         }
     }
 
@@ -133,12 +137,12 @@ Router.prototype.getMethods = function(route) {
 Router.prototype.getController = function(route) {
     var result;
 
-    if (!route.controller || this.getFormat(route) == 'json') {
+    if (!route.defaults._controller || this.getFormat(route) == 'json') {
         result = function (req, res) {
             res.json({});
         };
     } else {
-        result = require(path.join(this.baseDir, route.controller));
+        result = require(path.join(this.baseDir, route.defaults._controller));
     }
 
     return result;
@@ -166,12 +170,12 @@ Router.prototype.FORMATS = {
 Router.prototype.getFormat = function(route) {
     var result;
 
-    if (!this.getTemplate(route)) {
-        result = 'json';
-    } else if (route.format === undefined || this.FORMATS.hasOwnProperty(route.format)) {
+    if (route.defaults._format !== undefined && this.FORMATS.hasOwnProperty(route.defaults._format)) {
+        result = route.defaults._format;
+    } else if (!this.getTemplate(route)) {
         result = 'html';
     } else {
-        result = route.format;
+        result = 'json';
     }
 
     return result;
@@ -185,11 +189,11 @@ Router.prototype.getFormat = function(route) {
 Router.prototype.getTemplate = function(route) {
     var result;
 
-    if (route.template === undefined) {
+    if (route.defaults._template === undefined) {
         // TODO: Replace this to link to the static page
         result = '<!doctype html><html><head><title>' + route.name + '</title></head><body><h1>' + route.name + '</h1></body></html>'
     } else {
-        result = route.template;
+        result = route.defaults._template;
     }
 
     return result;

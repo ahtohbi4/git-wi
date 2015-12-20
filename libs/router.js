@@ -158,7 +158,7 @@ Router.prototype.getController = function(route) {
 
     if (!route.defaults._controller || this.getFormat(route) == 'json') {
         result = function (req, res) {
-            res.json({});
+            return {};
         };
     } else {
         result = require(path.join(this.baseDir, route.defaults._controller));

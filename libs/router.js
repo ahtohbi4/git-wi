@@ -210,7 +210,7 @@ Router.prototype.getTemplate = function(route) {
 
     if (route.defaults._template === undefined) {
         // TODO: Replace this to link to the static page
-        result = '<!doctype html><html><head><title>' + route.name + '</title></head><body><h1>' + route.name + '</h1></body></html>'
+        result = path.join(this.baseDir, 'app/modules/Default/views/default.html.twig');
     } else {
         result = route.defaults._template;
     }

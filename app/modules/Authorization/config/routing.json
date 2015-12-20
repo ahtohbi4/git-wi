@@ -3,7 +3,8 @@
         "path": "/",
         "defaults": {
             "_controller": "app/modules/Authorization/controller/authorization.js",
-            "_template": "app/modules/Authorization/views/auth.html.twig"
+            "_template": "app/modules/Authorization/views/auth.html.twig",
+            "_format": "html"
         },
         "methods": ["get"]
     },

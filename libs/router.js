@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var _ = require('underscore');
 
 /**
  * Router
@@ -59,8 +60,9 @@ Router.prototype._start = function() {
  * @param {string} [prefix]
  * @return {Router}
  */
-Router.prototype._normalizeRoutesMap = function (routes, prefix) {
-    var prefix = prefix || '';
+Router.prototype._normalizeRoutesMap = function (routes, prefix, requirements) {
+    var prefix = prefix || '',
+        requirements = requirements || {};
 
     for (var name in routes) {
         var route = routes[name];
@@ -68,12 +70,13 @@ Router.prototype._normalizeRoutesMap = function (routes, prefix) {
         if (route.resource !== undefined) {
             var nextLevel = this._getRoutesFromFile(route.resource);
             var nextPrefix = prefix + (route.prefix || '');
+            var nextRequirements = _.extend(requirements, (route.requirements || ''));
 
-            this._normalizeRoutesMap(nextLevel, nextPrefix);
+            this._normalizeRoutesMap(nextLevel, nextPrefix, nextRequirements);
         } else {
             route.name = name;
             route.defaults = route.defaults || {};
-            route.requirements = route.requirements || {};
+            route.requirements = _.extend(requirements, (route.requirements || {}));
             route.methods = route.methods || ['all'];
             route.path = prefix + route.path;
 
@@ -156,7 +159,7 @@ Router.prototype.getMethods = function(route) {
 Router.prototype.getController = function(route) {
     var result;
 
-    if (!route.defaults._controller || this.getFormat(route) == 'json') {
+    if (this.getFormat(route) == 'json') {
         result = function (req, res) {
             return {};
         };

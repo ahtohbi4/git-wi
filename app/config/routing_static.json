@@ -5,7 +5,7 @@
     "static_page_by_all_methods": {
         "path": "/static_page/{a}/",
         "defaults": {
-            "_controller": "app/modules/Default/controllers/someController.js"
+            "_controller": "app/modules/Default/controllers/default.js"
         },
         "requirements": {
             "a": "a|b"
@@ -14,7 +14,7 @@
     "static_page_by_post_method": {
         "path": "/static_page/~post",
         "defaults": {
-            "_controller": "app/modules/Default/controllers/someController.js"
+            "_controller": "app/modules/Default/controllers/default.js"
         },
         "methods": ["post"]
     }

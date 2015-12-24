@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var _ = require('underscore');
+var _ = require('lodash');
 
 /**
  * Router
@@ -60,27 +60,26 @@ Router.prototype._start = function() {
  * @param {string} [prefix]
  * @return {Router}
  */
-Router.prototype._normalizeRoutesMap = function (routes, prefix, requirements) {
+Router.prototype._normalizeRoutesMap = function (routes, prefix, defaults, requirements) {
     var prefix = prefix || '',
+        defaults = defaults || {},
         requirements = requirements || {};
 
     for (var name in routes) {
-        var route = routes[name];
+        var route = routes[name],
+            routeDefaults = _.merge({}, defaults, (route.defaults || {})),
+            routeRequirements = _.merge({}, requirements, (route.requirements || {}));
 
         if (route.resource !== undefined) {
-            var nextLevel = this._getRoutesFromFile(route.resource);
-            var nextPrefix = prefix + (route.prefix || '');
-            var nextRequirements = _.extend(requirements, (route.requirements || ''));
-
-            this._normalizeRoutesMap(nextLevel, nextPrefix, nextRequirements);
+            this._normalizeRoutesMap(this._getRoutesFromFile(route.resource), (prefix + (route.prefix || '')), routeDefaults, routeRequirements);
         } else {
-            route.name = name;
-            route.defaults = route.defaults || {};
-            route.requirements = _.extend(requirements, (route.requirements || {}));
-            route.methods = route.methods || ['all'];
-            route.path = prefix + route.path;
-
-            this.routeMap[name] = route;
+            this.routeMap[name] = _.merge({}, route, {
+                name: name,
+                path: prefix + route.path,
+                methods: route.methods || ['all'],
+                defaults: routeDefaults,
+                requirements: routeRequirements
+            });
         }
     }
 

@@ -3,6 +3,8 @@
  * @return {function}
  */
 module.exports =  function (req, res, router) {
+    res.end(router.generate('main', { locale: 'ru' }));
+
     switch (req.method.toLowerCase()) {
         case 'post':
             if (/* email and password is valid */ true) {

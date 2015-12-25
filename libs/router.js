@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var url = require('url');
 var _ = require('lodash');
 
 /**
@@ -260,16 +261,58 @@ Router.prototype.sendMethodNotAllowed = function(req, res) {
  * @method generate
  * @param {string} routeName
  * @param {object} attributes
+ * @param {suffix} suffix
  * @return {string}
  */
-Router.prototype.generate = function(routeName, attributes) {
-    var result;
+Router.prototype.generate = function(routeName, attributes, suffix) {
+    var result,
+        // @TODO: Move the param to Router
+        PARAM_PATTERN = /\{([^}]+)\}/g;
 
-    if (this.routeMap[routeName] === undefined) {
+    if (!this.routeMap.hasOwnProperty(routeName)) {
         throw new Error('Route name ' + routeName + ' is undefined.');
     }
 
-    result = this.routeMap[routeName].path;
+    attributes = attributes || {};
+
+    if (typeof attributes !== 'object') {
+        throw new Error('Attributes should to be an Object.');
+    }
+
+    suffix = suffix || '';
+
+    if (typeof suffix !== 'string') {
+        throw new Error('Suffix should to be a String.');
+    }
+
+    var route = this.routeMap[routeName];
+
+    // Path generated
+    result = route.path.replace(PARAM_PATTERN, function (match, name) {
+        var requirements = new RegExp(route.requirements[name] || '.*');
+
+        if (attributes.hasOwnProperty(name)) {
+            if (requirements.test(attributes[name])) {
+                return attributes[name];
+            } else {
+                throw new Error('Parameter ' + name + ' is not valid. See requirements of route ' + routeName);
+            }
+        } else if (route.defaults.hasOwnProperty(name)) {
+            if (requirements.test(route.defaults[name])) {
+                return route.defaults[name];
+            } else {
+                throw new Error('Default parameter ' + name + ' is not valid. See requirements of route ' + routeName);
+            }
+        } else {
+            throw new Error('Parameter ' + name + ' is not defined for route ' + routeName);
+        }
+    });
+
+    result = url.format({
+        pathname: result,
+        query: attributes,
+        hash: suffix
+    });
 
     return result;
 };

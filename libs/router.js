@@ -310,6 +310,7 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
 
     result = url.format({
         pathname: result,
+        // @TODO: reduce used params in pathname
         query: attributes,
         hash: suffix
     });

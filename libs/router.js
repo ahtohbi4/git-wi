@@ -51,7 +51,9 @@ Router.prototype._start = function() {
 
     // URI to output routeMap for developing
     // @TODO: hide from production mode
-    this.app.get('/_routes/', function (req, res) { res.json(_this.routeMap); });
+    this.app.get('/_dev/routes/', function (req, res) {
+        res.json(_this.routeMap);
+    });
 
     this.app.use(function (req, res) {
         _this.sendNotFaund(req, res);

@@ -3,7 +3,10 @@
  * @return {function}
  */
 module.exports =  function (req, res, router) {
-    res.end(router.generate('main', { locale: 'ru' }));
+    res.end(router.generate('main', {
+        _locale: 'en',
+        foo: 'some'
+    }));
 
     switch (req.method.toLowerCase()) {
         case 'post':

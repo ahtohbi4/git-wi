@@ -293,7 +293,10 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
 
         if (attributes.hasOwnProperty(name)) {
             if (requirements.test(attributes[name])) {
-                return attributes[name];
+                var value = attributes[name];
+                attributes = _.omit(attributes, name);
+
+                return value;
             } else {
                 throw new Error('Parameter ' + name + ' is not valid. See requirements of route ' + routeName);
             }

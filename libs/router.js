@@ -17,6 +17,7 @@ var Router = function () {
      * @param {string} [options.baseDir=__dirname]
      */
     return function (app, options) {
+        // @param {function} app
         if (app === undefined) {
             throw new Error('Could not apply router to undefined application.');
         } else if (typeof app !== 'function') {
@@ -25,12 +26,17 @@ var Router = function () {
             _this.app = app;
         }
 
+        // @param {string} file
         if (options.file === undefined) {
             throw new Error('Route\'s file have to be specified.');
         } else {
             _this.file = options.file;
         }
 
+        // @param {string} [host]
+        _this.host = options.host || '';
+
+        // @param {string} [baseDir=__dirname]
         _this.baseDir = options.baseDir || __dirname;
 
         _this._start();

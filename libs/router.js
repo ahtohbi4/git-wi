@@ -289,7 +289,7 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
         host,
         port;
 
-    if (attributes.hasOwnProperty('_protocol') || attribute.hasOwnProperty('_host') || attribute.hasOwnProperty('_port') || attributes.hasOwnProperty('_absolute')) {
+    if (attributes.hasOwnProperty('_protocol') || attributes.hasOwnProperty('_host') || attributes.hasOwnProperty('_port') || attributes.hasOwnProperty('_absolute')) {
         protocol = attributes['_protocol'] || this.protocol;
         host = attributes['_host'] || this.host;
         port = attributes['_port'] || this.port || '';

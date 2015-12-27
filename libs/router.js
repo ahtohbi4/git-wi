@@ -300,7 +300,16 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
         host = attributes['_host'] || this.host;
         port = attributes['_port'] || this.port || '';
 
-        _.omit(attributes, /_protocol|_host|_port|_absolute/i);
+        attributes = _.omit(attributes, function (value, attr) {
+            if ([
+                '_protocol',
+                '_host',
+                '_port',
+                '_absolute'
+            ].indexOf(attr) != -1) {
+                return attr;
+            }
+        });
     }
 
     suffix = suffix || '';

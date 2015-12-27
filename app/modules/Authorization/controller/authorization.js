@@ -5,7 +5,8 @@
 module.exports =  function (req, res, router) {
     res.end(router.generate('static_page_by_all_methods', {
         _locale: 'en',
-        _protocol: 'https',
+        //_protocol: 'https',
+        _absolute: true,
         foo: 'some'
     }, '#hash'));
 

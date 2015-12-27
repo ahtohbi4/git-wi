@@ -33,8 +33,14 @@ var Router = function () {
             _this.file = options.file;
         }
 
+        // @param {string} [protocol]
+        _this.protocol = options.protocol || '';
+
         // @param {string} [host]
         _this.host = options.host || '';
+
+        // @param {string} [port]
+        _this.port = options.port || '';
 
         // @param {string} [baseDir=__dirname]
         _this.baseDir = options.baseDir || __dirname;
@@ -293,6 +299,8 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
         protocol = attributes['_protocol'] || this.protocol;
         host = attributes['_host'] || this.host;
         port = attributes['_port'] || this.port || '';
+
+        _.omit(attributes, /_protocol|_host|_port|_absolute/i);
     }
 
     suffix = suffix || '';

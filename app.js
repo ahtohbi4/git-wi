@@ -22,6 +22,7 @@ app.set('view engine', 'twig');
 var router = require(path.join(__dirname, 'libs/router'));
 router(app, {
     host: config.get('host'),
+    port: config.get('port'),
     baseDir: __dirname,
     file: config.get('router').resource
 });

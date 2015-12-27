@@ -287,33 +287,29 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
 
     var route = this.routeMap[routeName];
 
-    // Path generated
-    result = route.path.replace(PARAM_PATTERN, function (match, name) {
-        var requirements = new RegExp(route.requirements[name] || '.*');
-
-        if (attributes.hasOwnProperty(name)) {
-            if (requirements.test(attributes[name])) {
-                var value = attributes[name];
-                attributes = _.omit(attributes, name);
-
-                return value;
-            } else {
-                throw new Error('Parameter ' + name + ' is not valid. See requirements of route ' + routeName);
-            }
-        } else if (route.defaults.hasOwnProperty(name)) {
-            if (requirements.test(route.defaults[name])) {
-                return route.defaults[name];
-            } else {
-                throw new Error('Default parameter ' + name + ' is not valid. See requirements of route ' + routeName);
-            }
-        } else {
-            throw new Error('Parameter ' + name + ' is not defined for route ' + routeName);
-        }
-    });
-
     result = url.format({
-        pathname: result,
-        // @TODO: reduce used params in pathname
+        pathname: route.path.replace(PARAM_PATTERN, function (match, name) {
+            var requirements = new RegExp(route.requirements[name] || '.*');
+
+            if (attributes.hasOwnProperty(name)) {
+                if (requirements.test(attributes[name])) {
+                    var value = attributes[name];
+                    attributes = _.omit(attributes, name);
+
+                    return value;
+                } else {
+                    throw new Error('Parameter "' + name + '" is not valid. See requirements of route "' + routeName + '".');
+                }
+            } else if (route.defaults.hasOwnProperty(name)) {
+                if (requirements.test(route.defaults[name])) {
+                    return route.defaults[name];
+                } else {
+                    throw new Error('Default parameter "' + name + '" is not valid. See requirements of route "' + routeName + '".');
+                }
+            } else {
+                throw new Error('Parameter "' + name + '" is not defined for route "' + routeName + '".');
+            }
+        }),
         query: attributes,
         hash: suffix
     });

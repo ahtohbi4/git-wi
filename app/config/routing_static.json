@@ -5,7 +5,8 @@
     "static_page_by_all_methods": {
         "path": "/static_page/{a}/",
         "defaults": {
-            "_controller": "app/modules/Default/controllers/default.js"
+            "_controller": "app/modules/Default/controllers/default.js",
+            "a": "b"
         },
         "requirements": {
             "a": "a|b"

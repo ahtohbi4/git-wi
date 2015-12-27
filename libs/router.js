@@ -285,6 +285,16 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
         throw new Error('Attributes should to be an Object.');
     }
 
+    var protocol,
+        host,
+        port;
+
+    if (attributes.hasOwnProperty('_protocol') || attribute.hasOwnProperty('_host') || attribute.hasOwnProperty('_port') || attributes.hasOwnProperty('_absolute')) {
+        protocol = attributes['_protocol'] || this.protocol;
+        host = attributes['_host'] || this.host;
+        port = attributes['_port'] || this.port || '';
+    }
+
     suffix = suffix || '';
 
     if (typeof suffix !== 'string') {
@@ -294,6 +304,9 @@ Router.prototype.generate = function(routeName, attributes, suffix) {
     var route = this.routeMap[routeName];
 
     result = url.format({
+        protocol: protocol,
+        hostname: host,
+        port: port,
         pathname: route.path.replace(PARAM_PATTERN, function (match, name) {
             var requirements = new RegExp(route.requirements[name] || '.*');
 

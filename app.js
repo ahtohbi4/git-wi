@@ -21,6 +21,7 @@ app.set('view engine', 'twig');
 // router
 var router = require(path.join(__dirname, 'libs/router'));
 router(app, {
+    host: config.get('host'),
     baseDir: __dirname,
     file: config.get('router').resource
 });

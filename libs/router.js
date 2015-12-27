@@ -34,7 +34,7 @@ var Router = function () {
         }
 
         // @param {string} [protocol]
-        _this.protocol = options.protocol || '';
+        _this.protocol = options.protocol || 'http';
 
         // @param {string} [host]
         _this.host = options.host || '';

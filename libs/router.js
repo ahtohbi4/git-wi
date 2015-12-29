@@ -133,16 +133,20 @@ Router.prototype._applyRoute = function(route) {
 };
 
 /**
+ * @const {RegExp}
+ */
+Router.prototype.PARAM_PATTERN = /\{([^}]+)\}/g;
+
+/**
  * @method _getPath
  * @param {object} route
  * @return {string}
  */
 Router.prototype._getPath = function(route) {
     var result,
-        path = route.path || '',
-        PARAM_PATTERN = /\{([^}]+)\}/g;
+        path = route.path || '';
 
-    result = path.replace(PARAM_PATTERN, function (match, name) {
+    result = path.replace(this.PARAM_PATTERN, function (match, name) {
         var pattern = (route.requirements[name] !== undefined) ? '(' + route.requirements[name] + ')' : '';
 
         return ':' + name + pattern;
